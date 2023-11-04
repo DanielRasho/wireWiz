@@ -1,5 +1,5 @@
 <div align = "center">
-  <img src="./media/Logo.png" width="200px"><h1 align="center"> 
+  <img src="./media/wireWizLogo.png" width="100px"><h1 align="center"> 
   <h1 align="center" style="font-style:italic;">
   WireWiz</h1>
     <h5 align="center"> <i style="color:grey;"> 

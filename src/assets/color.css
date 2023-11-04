@@ -1,0 +1,21 @@
+:root {
+    --text: #ffffff;
+    --background: #252423;
+    --primary: #ff4b4b;
+    --on-primary: #ffffff;
+    --secondary: #ff8f42;
+    --on-secondary: #ffffff;
+    --deactivate: #6a7166;
+    --outline: #6a7166;
+    --on-warning: #f0ee6c;
+    --on-info:#4cb9fb; 
+    --green-accent: #88d16a;
+
+
+    /* Specific components */
+    --green-accent: #88d16a;
+    --green-accent-dark: #3d692c;
+
+    --secondary: #ff8f42;
+    --negative-button-dark: #a7521a; 
+}

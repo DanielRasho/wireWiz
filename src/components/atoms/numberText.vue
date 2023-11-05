@@ -1,16 +1,23 @@
 <template>
   <div>
     <div class="inputBox">
-      <input
-        class="font-body"
-        type="text"
-        required="required"
-        @blur="updateValue"
-        :placeholder="props.placeholder"
-        v-model="displayValue"
-      />
-      <span class="field-label font-label"> {{ label }} </span>
-      <span v-if="props.unit.length != 0" class="field-unit font-label">
+      <span
+        class="font-body text-container"
+        :class="{ 'text-container-filled': !isEmpty }"
+      >
+        {{ text }}
+      </span>
+      <span
+        class="field-label font-label"
+        :class="{ 'field-label-filled': !isEmpty }"
+      >
+        {{ label }}
+      </span>
+      <span
+        v-if="unit.length != 0"
+        class="field-unit font-label"
+        :class="{ 'field-unit-filled': !isEmpty }"
+      >
         {{ unit }}
       </span>
     </div>
@@ -18,15 +25,14 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, onMounted, computed } from 'vue'
 import { SimulationMagnitude } from '../../lib/model'
 
-/** Value to display */
-const displayValue = ref('')
-/** Last valid value */
-const currentValue = ref('')
-
 const emit = defineEmits(['fieldUpdated'])
+
+const isEmpty = computed(() => {
+  return props.text.length == 0
+})
 
 const props = defineProps({
   label: {
@@ -36,6 +42,12 @@ const props = defineProps({
   },
 
   unit: {
+    required: false,
+    type: String,
+    default: ''
+  },
+
+  text: {
     required: false,
     type: String,
     default: ''
@@ -89,8 +101,10 @@ function updateValue(event) {
   display: inline-block;
 }
 
-.inputBox input {
+.text-container {
+  display: inline-block;
   width: v-bind(width);
+  height: 4.5ch;
   padding: 1.2ch;
   border: 1px solid var(--outline);
   background: var(--background);
@@ -100,8 +114,7 @@ function updateValue(event) {
   transition: 0.5s;
 }
 
-.inputBox input:valid,
-.inputBox input:focus {
+.text-container-filled {
   border: 1px solid var(--primary);
 }
 
@@ -120,8 +133,7 @@ function updateValue(event) {
   transition: 0.5s;
 }
 
-.inputBox input:valid ~ .field-label,
-.inputBox input:focus ~ .field-label {
+.field-label-filled {
   color: var(--primary);
   top: 0;
   transform: translateX(1rem) translateY(-50%);
@@ -146,8 +158,7 @@ function updateValue(event) {
   transition: 0.5s;
 }
 
-.inputBox input:valid ~ .field-unit,
-.inputBox input:focus ~ .field-unit {
+.field-unit-filled {
   color: var(--primary);
 }
 </style>

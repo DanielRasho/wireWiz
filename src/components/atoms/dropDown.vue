@@ -55,7 +55,7 @@ const props = defineProps({
     rgba(0, 0, 0, 0.8) 0px 15px 12px;
   border-radius: 10px;
   overflow: hidden;
-  z-index: 1;
+  z-index: 200;
 }
 .option div {
   padding: 0.5rem 1rem;

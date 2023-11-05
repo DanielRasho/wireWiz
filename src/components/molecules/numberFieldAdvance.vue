@@ -23,19 +23,20 @@
           :current-value="currentUnit"
           :options="units"
           @option-selected="changeUnit"
+          class="dropdown"
         ></drop-down>
       </span>
     </div>
-    <i
-      class="fa-regular fa-circle-question tooltip"
-      message-toltip="You can change the metric unit by clicking it!"
-    ></i>
+    <tool-tip
+      message="You can change the metric unit by clicking it!"
+    ></tool-tip>
   </div>
 </template>
 
 <script setup>
 import { ref, defineEmits, onMounted } from 'vue'
 import dropDown from '../atoms/dropDown.vue'
+import ToolTip from '../atoms/toolTip.vue'
 
 /** Value to display */
 const displayValue = ref('')
@@ -185,6 +186,8 @@ const props = defineProps({
   cursor: pointer;
 
   transition: 0.5s;
+
+  z-index: 100;
 }
 
 .inputBox input:valid ~ .field-unit,
@@ -193,39 +196,5 @@ const props = defineProps({
 }
 .field-unit:hover {
   color: var(--secondary) !important;
-}
-
-.tooltip {
-  color: var(--outline);
-  font-size: 1.2rem;
-  transition: 0.5s;
-  position: relative;
-}
-.tooltip:hover {
-  color: var(--on-info);
-}
-
-.tooltip::after {
-  --scale: 0;
-  position: absolute;
-  /* Center align vertically */
-  top: 50%;
-  content: attr(message-toltip);
-  width: 20ch;
-  padding: 1ch;
-  color: var(--on-info);
-  background-color: var(--info);
-  transform: translateX(2ch) translateY(-50%) scale(var(--scale));
-  border-radius: 3px;
-
-  font-family: 'Lexend Deca', sans-serif;
-  font-size: 0.8rem;
-  font-weight: lighter;
-
-  transition: 0.2s;
-}
-
-.tooltip:hover::after {
-  --scale: 1;
 }
 </style>

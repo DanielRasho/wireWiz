@@ -24,6 +24,19 @@ const props = defineProps({
 </script>
 
 <style scoped>
+.pushable {
+  position: relative;
+  background: transparent;
+  display: inline-block;
+  width: v-bind(width);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 5px;
+  height: fit-content;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .front {
   display: block;
   padding: 1ch 1ch;
@@ -33,18 +46,6 @@ const props = defineProps({
   border: 7px solid var(--on-orange-accent);
   transform: translateY(-4px);
   transition: transform 250ms;
-}
-
-.pushable {
-  position: relative;
-  background: transparent;
-  width: v-bind(width);
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline-offset: 5px;
-  height: fit-content;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .shadow {

@@ -18,7 +18,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, defineEmits } from 'vue'
+import { SimulationMagnitude } from '../../lib/model'
 
 /** Value to display */
 const displayValue = ref('')
@@ -55,7 +56,7 @@ const props = defineProps({
     required: false,
     type: Function,
     default: (_) => {
-      false
+      return false
     }
   }
 })
@@ -73,7 +74,10 @@ function updateValue(event) {
   } else {
     console.log(`Valid value for ${props.label}`)
     currentValue.value = parseFloat(futureValue)
-    emit('fieldUpdated', currentValue.value)
+    emit(
+      'fieldUpdated',
+      new SimulationMagnitude(currentValue.value, props.label, props.unit)
+    )
   }
 }
 </script>
@@ -138,6 +142,8 @@ function updateValue(event) {
   padding: 1ch;
   color: var(--outline);
   background: var(--background);
+
+  transition: 0.5s;
 }
 
 .inputBox input:valid ~ .field-unit,

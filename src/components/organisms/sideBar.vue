@@ -7,27 +7,37 @@
 <script setup>
 import { ref } from 'vue'
 
-const isVisible = ref(true)
+const props = defineProps({
+  isVisible: {
+    required: true,
+    type: Boolean,
+    default: true
+  }
+})
 </script>
 
 <style scoped>
 .sidebar {
   height: 100vh;
-  width: 0;
+
   padding: 0;
+  width: 0;
 
   background-color: var(--background);
   border-right: 1px solid black;
+  border-left: 1px solid black;
 
   display: flex;
   flex-direction: column;
   align-items: start;
+  transition: 0.5s ease-in-out;
 
-  transition: 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .active {
-  width: 38ch;
   padding: 3ch;
+  width: 39ch;
+  overflow: visible;
 }
 </style>

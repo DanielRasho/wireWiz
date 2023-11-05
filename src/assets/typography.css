@@ -1,35 +1,35 @@
 .font-title {
-    font-family: 'Sora', sans-serif;
-    font-size: 3rem;
-    font-weight: bold;
+  font-family: 'Sora', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .font-subtitle {
-    font-family: 'Sora', sans-serif;
-    font-size: 2rem;
-    font-weight: normal;
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem;
+  font-weight: normal;
 }
 
 .font-body-big {
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 1.5rem;
-    font-weight: bold;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .font-body {
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 1rem;
-    font-weight: normal;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 1rem;
+  font-weight: lighter;
 }
 
 .font-label {
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 0.8rem;
-    font-weight: normal;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 0.8rem;
+  font-weight: normal;
 }
 
 .font-label-small {
-    font-family: 'Lexend Deca', sans-serif;
-    font-size: 0.6rem;
-    font-weight: normal;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 0.6rem;
+  font-weight: normal;
 }

@@ -12,6 +12,7 @@ export class SimulationEngine {
     this.calculateFields()
   }
 
+  ELECTRON_CHARGE = 1.60217663e-19
   AWG_TO_METERS = 0.007348
 
   resistance = 0
@@ -35,12 +36,7 @@ export class SimulationEngine {
   //   }
 
   calculateResistence() {
-    let wireDimensions = this.context.diameter.unit
-    let wireDiameter =
-      wireDimensions == diameterUnits.AWG
-        ? AWG_TO_METERS * this.context.diameter.value
-        : this.context.diameter.value
-    let wireTransversalArea = (Math.PI * Math.pow(wireDiameter, 2)) / 4
+    let wireTransversalArea = this.calculateTransversalArea()
     console.log('transversal:' + wireTransversalArea)
     return (
       (this.context.material.resistivity.value * this.context.length.value) /
@@ -57,10 +53,24 @@ export class SimulationEngine {
   }
 
   calculateDragVelocity() {
-    return (this.context.voltage.value * this.electricCurrent).toExponential(4)
+    return (
+      this.electricCurrent /
+      (this.calculateTransversalArea() *
+        this.context.material.chargeDensity.value *
+        this.ELECTRON_CHARGE)
+    ).toExponential(4)
   }
 
   calculateElectronTravelTime() {
     return (this.context.length.value / this.dragVelocity).toExponential(4)
+  }
+
+  calculateTransversalArea() {
+    let wireDimensions = this.context.diameter.unit
+    let wireDiameter =
+      wireDimensions == diameterUnits.AWG
+        ? AWG_TO_METERS * this.context.diameter.value
+        : this.context.diameter.value
+    return (Math.PI * Math.pow(wireDiameter, 2)) / 4
   }
 }

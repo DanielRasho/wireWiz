@@ -6,11 +6,39 @@ import numberInputdAdvanced from './components/molecules/numberInputAdvanced.vue
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
 import { computed, ref } from 'vue'
+import { SimulationContext } from './lib/SimulationContext'
+import { SimulationMagnitude } from './lib/SimulationMagnitud'
+import { WireMaterial, WireMaterials, diameterUnits } from './lib/WireMaterials'
+import { SimulationEngine } from './lib/SimulationEngine'
 
 const isSimulationOn = ref(false)
 
-function tooggleSimulation() {
-  isSimulationOn.value = !isSimulationOn.value
+const context = ref(
+  new SimulationContext(
+    new SimulationMagnitude('', 'Length', 'm'),
+    new SimulationMagnitude('', 'Diameter', 'm'),
+    new SimulationMagnitude('', 'Voltage', 'V'),
+    new WireMaterial(
+      '',
+      new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+      new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    )
+  )
+)
+
+const engine = ref(new SimulationEngine(context.value))
+
+const materialsList = Object.values(WireMaterials).map(
+  (material) => `${material.name} (${material.chargeDensity.unit})`
+)
+
+function startSimulation() {
+  isSimulationOn.value = true
+  engine.value.calculateFields(context.value)
+}
+
+function endSimulation() {
+  isSimulationOn.value = false
 }
 
 const showInputBar = computed(() => {
@@ -26,11 +54,39 @@ const showOutputBar = computed(() => {
   <div id="window">
     <side-bar :is-visible="showInputBar">
       <h1 class="font-title">Properties</h1>
-      <number-input class="input" label="Length" unit="m" />
-      <number-inputd-advanced class="input" label="Diameter" />
-      <number-input class="input" label="Voltage" unit="V" />
-      <select-field class="input" label="Material" />
-      <button-push class="submit-btn" width="25ch" @click="tooggleSimulation">
+      <number-input
+        class="input"
+        label="Length"
+        unit="m"
+        @field-updated="
+          (n) => {
+            context.length = n
+          }
+        "
+      />
+      <number-inputd-advanced
+        class="input"
+        label="Diameter"
+        :units="Object.values(diameterUnits)"
+        @field-updated="
+          (n) => {
+            context.diameter = n
+            console.log(context)
+          }
+        "
+      />
+      <number-input
+        class="input"
+        label="Voltage"
+        unit="V"
+        @field-updated="
+          (n) => {
+            context.voltage = n
+          }
+        "
+      />
+      <select-field class="input" label="Material" :options="materialsList" />
+      <button-push class="submit-btn" width="25ch" @click="startSimulation">
         Simulate <i class="fa-solid fa-play"></i>
       </button-push>
     </side-bar>
@@ -39,13 +95,23 @@ const showOutputBar = computed(() => {
     </main>
     <side-bar :is-visible="showOutputBar">
       <h1 class="font-title">Technical Info</h1>
-      <number-text class="input" label="Resistance" unit="Ohms" />
-      <number-text class="input" label="Current" unit="A" />
+      <number-text
+        class="input"
+        label="Resistance"
+        :text="engine.resistance"
+        unit="Ohms"
+      />
+      <number-text
+        class="input"
+        label="Current"
+        :text="engine.electricCurrent"
+        unit="A"
+      />
       <number-text class="input" label="Power" unit="W" />
       <number-text class="input" label="Drag Speed" unit="m/s" />
-      <number-text class="input" label="Drag Speed" unit="min" />
+      <number-text class="input" label="Travel time" unit="min" />
 
-      <button-push class="stop-btn" width="25ch" @click="tooggleSimulation">
+      <button-push class="stop-btn" width="25ch" @click="endSimulation">
         Stop <i class="fa-solid fa-pause"></i>
       </button-push>
     </side-bar>

@@ -35,6 +35,7 @@
 
 <script setup>
 import { ref, defineEmits, onMounted } from 'vue'
+import { SimulationMagnitude } from '../../lib/simulationMagnitud'
 import dropDown from '../atoms/dropDown.vue'
 import ToolTip from '../atoms/toolTip.vue'
 

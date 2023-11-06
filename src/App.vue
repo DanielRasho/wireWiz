@@ -39,23 +39,11 @@ const showOutputBar = computed(() => {
     </main>
     <side-bar :is-visible="showOutputBar">
       <h1 class="font-title">Technical Info</h1>
-      <number-text
-        class="input"
-        label="Resistance"
-        unit="Ohms"
-      />
-      <number-text class="input" label="Current" unit="A" disabled="true" />
-      <number-text class="input" label="Power" unit="W" disabled="true" />
-      <number-text
-        class="input"
-        label="Drag Speed"
-        unit="m/s"
-      />
-      <number-text
-        class="input"
-        label="Drag Speed"
-        unit="min"
-      />
+      <number-text class="input" label="Resistance" unit="Ohms" />
+      <number-text class="input" label="Current" unit="A" />
+      <number-text class="input" label="Power" unit="W" />
+      <number-text class="input" label="Drag Speed" unit="m/s" />
+      <number-text class="input" label="Drag Speed" unit="min" />
 
       <button-push class="stop-btn" width="25ch" @click="tooggleSimulation">
         Stop <i class="fa-solid fa-pause"></i>

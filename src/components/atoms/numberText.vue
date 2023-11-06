@@ -25,8 +25,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted, computed } from 'vue'
-import { SimulationMagnitude } from '../../lib/model'
+import { defineEmits, computed } from 'vue'
 
 const emit = defineEmits(['fieldUpdated'])
 
@@ -57,41 +56,8 @@ const props = defineProps({
     required: false,
     type: String,
     default: '30ch'
-  },
-
-  /**
-   * Must be a Predicate (Function that recives a value and return a boolean) :
-   * Used for for double-cheking if input is correct
-   * if not, will return tu last value correct value.
-   */
-  guardInput: {
-    required: false,
-    type: Function,
-    default: (_) => {
-      return false
-    }
   }
 })
-
-/**
- * Check if value is valid, if not return it to the last valid value
- * stored in currentValue, otherwise emit the <fieldUpdate> event.
- * @param {*} event input value after user exit writting
- */
-function updateValue(event) {
-  let futureValue = event.target.value
-  if (Number.isNaN(parseFloat(futureValue)) || props.guardInput(futureValue)) {
-    console.log(`Not valid value for ${props.label}`)
-    displayValue.value = currentValue.value
-  } else {
-    console.log(`Valid value for ${props.label}`)
-    currentValue.value = parseFloat(futureValue)
-    emit(
-      'fieldUpdated',
-      new SimulationMagnitude(currentValue.value, props.label, props.unit)
-    )
-  }
-}
 </script>
 
 <style scoped>

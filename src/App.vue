@@ -107,9 +107,19 @@ const showOutputBar = computed(() => {
         :text="engine.electricCurrent"
         unit="A"
       />
-      <number-text class="input" label="Power" unit="W" />
-      <number-text class="input" label="Drag Speed" unit="m/s" />
-      <number-text class="input" label="Travel time" unit="min" />
+      <number-text class="input" label="Power" :text="engine.power" unit="W" />
+      <number-text
+        class="input"
+        label="Drag Speed"
+        :text="engine.dragVelocity"
+        unit="m/s"
+      />
+      <number-text
+        class="input"
+        label="Travel time"
+        :text="engine.electronTravelTime"
+        unit="min"
+      />
 
       <button-push class="stop-btn" width="25ch" @click="endSimulation">
         Stop <i class="fa-solid fa-pause"></i>

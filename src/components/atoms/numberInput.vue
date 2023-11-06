@@ -19,7 +19,7 @@
 
 <script setup>
 import { ref, defineEmits, onMounted } from 'vue'
-import { SimulationMagnitude } from '../../lib/simulationMagnitud'
+import { SimulationMagnitude } from '../../lib/SimulationMagnitud'
 
 /** Value to display */
 const displayValue = ref('')

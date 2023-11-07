@@ -2,43 +2,50 @@
 import NumberInput from './components/atoms/numberInput.vue'
 import selectField from './components/atoms/selectField.vue'
 import buttonPush from './components/atoms/buttonPush.vue'
-import numberInputdAdvanced from './components/molecules/numberInputAdvanced.vue'
+import numberInputAdvanced from './components/molecules/numberInputAdvanced.vue'
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
-import { computed, ref } from 'vue'
-import { SimulationContext } from './lib/SimulationContext'
+import { computed, reactive, ref, watch } from 'vue'
+import { SimulationContext, EMPTY_CONTEXT } from './lib/SimulationContext'
 import { SimulationMagnitude } from './lib/SimulationMagnitud'
 import { WireMaterial, WireMaterials, diameterUnits } from './lib/WireMaterials'
 import { SimulationEngine } from './lib/SimulationEngine'
 
 const isSimulationOn = ref(false)
 
-const context = ref(
-  new SimulationContext(
-    new SimulationMagnitude('', 'Length', 'm'),
-    new SimulationMagnitude('', 'Diameter', 'm'),
-    new SimulationMagnitude('', 'Voltage', 'V'),
-    new WireMaterial(
-      '',
-      new SimulationMagnitude(300, 'Charge Density', '1/m³'),
-      new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
-    )
-  )
-)
+const context = ref(Object.assign({}, EMPTY_CONTEXT))
 
 const engine = ref(new SimulationEngine(context.value))
+
+const clearSignal = ref(false)
 
 const materialsList = Object.values(WireMaterials).map(
   (material) => `${material.name} (${material.chargeDensity.unit})`
 )
 
 function startSimulation() {
+  console.log(context)
   isSimulationOn.value = true
   engine.value.calculateFields(context.value)
 }
 
 function endSimulation() {
   isSimulationOn.value = false
+}
+
+/**
+ * Sends signal to inputs to clear themselves.
+ */
+function clearSignalOn() {
+  clearSignal.value = true
+}
+
+/**
+ * Restablish clear signal to false, so it can be sent again in the future.
+ */
+function clearSignalOff() {
+  console.log(context.value)
+  clearSignal.value = false
 }
 
 const showInputBar = computed(() => {
@@ -48,6 +55,21 @@ const showInputBar = computed(() => {
 const showOutputBar = computed(() => {
   return isSimulationOn.value == true ? true : false
 })
+
+/**
+ * Recives a selected value from select-field tag, and search
+ * the Wire material that matches the given value.
+ * @param {String} selectedOption
+ * @returns {WireMaterial} Matching material from WireMaterials Enum.
+ */
+function getMaterialtOfChargeDensity(selectedOption) {
+  let materialName = selectedOption.split(' ')[0]
+  context.value.material = Object.values(WireMaterials).find(
+    (o) => o.name == materialName
+  )
+}
+
+// watch(context, (newv, oldv) => { console.log ("ATTRIBUTES CHANGED!")}, {deep: true})
 </script>
 
 <template>
@@ -58,36 +80,51 @@ const showOutputBar = computed(() => {
         class="input"
         label="Length"
         unit="m"
+        :clear="clearSignal"
         @field-updated="
           (n) => {
             context.length = n
           }
         "
+        @clear-succesful="clearSignalOff"
       />
-      <number-inputd-advanced
+      <number-input-advanced
         class="input"
         label="Diameter"
         :units="Object.values(diameterUnits)"
+        :clear="clearSignal"
         @field-updated="
           (n) => {
             context.diameter = n
             console.log(context)
           }
         "
+        @clear-succesful="clearSignalOff"
       />
       <number-input
         class="input"
         label="Voltage"
         unit="V"
+        :clear="clearSignal"
         @field-updated="
           (n) => {
             context.voltage = n
           }
         "
+        @clear-succesful="clearSignalOff"
       />
-      <select-field class="input" label="Material" :options="materialsList" />
+      <select-field
+        class="input"
+        label="Material"
+        :options="materialsList"
+        :clear="clearSignal"
+        @clear-succesful="clearSignalOff"
+      />
       <button-push class="submit-btn" width="25ch" @click="startSimulation">
         Simulate <i class="fa-solid fa-play"></i>
+      </button-push>
+      <button-push class="clear-btn" width="25ch" @click="clearSignalOn">
+        Clear <i class="fa-solid fa-trash"></i>
       </button-push>
     </side-bar>
     <main>
@@ -149,7 +186,8 @@ main {
 }
 
 .submit-btn,
-.stop-btn {
+.stop-btn,
+.clear-btn {
   margin-top: 10ch;
   align-self: center;
 }
@@ -165,7 +203,8 @@ main {
 .submit-btn :deep(.edge) {
   background-color: rgb(35, 60, 35);
 }
-.stop-btn :deep(.front) i {
+.stop-btn :deep(.front) i,
+.clear-btn :deep(.front) i {
   color: var(--on-orange-accent);
 }
 </style>

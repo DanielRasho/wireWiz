@@ -23,8 +23,11 @@ let runner
 
 onMounted(() => {
   // create an engine
-  engine = Engine.create()
-  engine.world.gravity.y = 0
+  engine = Engine.create({
+    gravity: {
+      y: 0
+    }
+  })
 
   // add window resize handler
   window.addEventListener('resize', () => setupInitialConditions())

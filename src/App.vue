@@ -5,6 +5,7 @@ import buttonPush from './components/atoms/buttonPush.vue'
 import numberInputAdvanced from './components/molecules/numberInputAdvanced.vue'
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
+import simulationDisplay from './components/organisms/simulationDisplay.vue'
 import { computed, ref } from 'vue'
 import { EMPTY_CONTEXT } from './lib/SimulationContext'
 import {
@@ -140,7 +141,7 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
-      <div id="canvas"></div>
+      <simulation-display />
     </main>
     <side-bar :is-visible="showOutputBar">
       <h1 class="font-title">Technical Info</h1>
@@ -185,12 +186,10 @@ function getMaterialFromName(event) {
 
 main {
   position: relative;
-}
-
-#canvas {
-  background: white;
-  width: 300px;
-  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .input {

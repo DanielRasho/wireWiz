@@ -21,6 +21,8 @@ export const diameterUnits = Object.freeze({
   AWG: 'AWG'
 })
 
+const AVOGADRO =  6.02214076e23
+
 /**
  * Enum of posible wire materials along with its
  * electrons density.
@@ -28,27 +30,38 @@ export const diameterUnits = Object.freeze({
 export const WIRE_MATERIALS = Object.freeze({
   GOLD: new WireMaterial(
     'Gold',
-    new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+    new SimulationMagnitude(computeChargeDensity(79, 196.96657, 19.3), 'Charge Density', '1/m³'),
     new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
   ),
   SILVER: new WireMaterial(
     'Silver',
-    new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+    new SimulationMagnitude(computeChargeDensity(47, 107.8682, 10.49), 'Charge Density', '1/m³'),
     new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
   ),
   COPPER: new WireMaterial(
     'Copper',
-    new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+    new SimulationMagnitude(computeChargeDensity(29, 63.546, 8.96), 'Charge Density', '1/m³'),
     new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
   ),
   ALUMINUM: new WireMaterial(
     'Aluminum',
-    new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+    new SimulationMagnitude(computeChargeDensity(13, 26.982, 2.7), 'Charge Density', '1/m³'),
     new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
   ),
   GRAPHITE: new WireMaterial(
     'Graphite',
-    new SimulationMagnitude(300, 'Charge Density', '1/m³'),
+    new SimulationMagnitude(computeChargeDensity(4, 12.0107, 2.26), 'Charge Density', '1/m³'),
     new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
   )
 })
+
+/**
+ * Calcula la densidad de carga del elemento.
+ * 
+ * Las dimensionales de la densidad son: electrones / m^3.
+ * @param {Number} electrons La cantidad de electrones que tiene un átomo del elemento
+ * @param {Number} molarMass La cantidad de gramos que tiene un mol del elemento
+ * @param {Number} density La cantidad de gramos que tiene un cm^3 del elemento
+ * @returns {Number} La densidad de carga en electrones/m^3.
+ */
+const computeChargeDensity = (electrons, molarMass, density) => electrons * AVOGADRO / molarMass * density * 100_00_00

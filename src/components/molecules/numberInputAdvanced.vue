@@ -113,7 +113,10 @@ const props = defineProps({
  * the signal to parent component the input value has changed.
  */
 watch(currentValue, (newVal, oldVal) => {
-  emit('fieldUpdated', new SimulationMagnitude(newVal, props.label, props.unit))
+  emit(
+    'fieldUpdated',
+    new SimulationMagnitude(newVal, props.label, currentUnit.value)
+  )
 })
 
 /**

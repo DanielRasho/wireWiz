@@ -1,5 +1,6 @@
 import { SimulationContext } from './SimulationContext'
 import { diameterUnits } from './WireMaterials'
+import { AWG_TO_METERS, ELECTRON_CHARGE } from '../lib/Utils'
 
 /**
  * Class responsable for calculating parameters for the given
@@ -7,9 +8,6 @@ import { diameterUnits } from './WireMaterials'
  * @param {SimulationContext} context
  */
 export class SimulationEngine {
-  ELECTRON_CHARGE = 1.60217663e-19
-  AWG_TO_METERS = 0.007348
-
   resistance = 0
   electricCurrent = 0
   power = 0
@@ -51,7 +49,7 @@ export class SimulationEngine {
       this.calculateCurrent(context) /
       (this.calculateTransversalArea(context) *
         context.material.chargeDensity.value *
-        this.ELECTRON_CHARGE)
+        ELECTRON_CHARGE)
     ).toExponential(4)
   }
 

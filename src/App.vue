@@ -14,6 +14,13 @@ import {
   diameterUnits
 } from './lib/WireMaterials'
 import { SimulationEngine } from './lib/SimulationEngine'
+import { AWG_TO_METERS } from './lib/Utils'
+import NoneLogo from './assets/none.jpg'
+import AluminumLogo from './assets/aluminumLogo.png'
+import CopperLogo from './assets/copperLogo.png'
+import GoldLogo from './assets/goldLogo.png'
+import SilverLogo from './assets/silverLogo.png'
+import GraphiteLogo from './assets/graphiteLogo.png'
 
 const isSimulationOn = ref(false)
 
@@ -22,6 +29,8 @@ const context = ref(Object.assign({}, EMPTY_CONTEXT))
 const engine = ref(new SimulationEngine())
 
 const clearSignal = ref(false)
+
+const materialImage = ref(NoneLogo)
 
 const materialsList = Object.values(WIRE_MATERIALS).map((material) => {
   const materialDensity = parseFloat(
@@ -61,8 +70,8 @@ function clearSignalOn() {
  * Restablish clear signal to false, so it can be sent again in the future.
  */
 function clearSignalOff() {
-  console.log(context.value)
   clearSignal.value = false
+  materialImage.value = NoneLogo
 }
 
 const showInputBar = computed(() => {
@@ -84,6 +93,27 @@ function getMaterialFromName(event) {
   context.value.material = Object.values(WIRE_MATERIALS).find(
     (o) => o.name == materialName
   )
+
+  switch (materialName) {
+    case 'Gold':
+      materialImage.value = GoldLogo
+      break
+    case 'Silver':
+      materialImage.value = SilverLogo
+      break
+    case 'Copper':
+      materialImage.value = CopperLogo
+      break
+    case 'Aluminum':
+      materialImage.value = AluminumLogo
+      break
+    case 'Graphite':
+      materialImage.value = GraphiteLogo
+      break
+    default:
+      materialImage.value = NoneLogo
+      break
+  }
 }
 </script>
 
@@ -144,10 +174,24 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
+      <p class="plus font-title">+ {{ context.voltage.value }} V</p>
+      <p class="minus font-title">- {{ context.voltage.value }} V</p>
+      <p class="info font-subtitle">
+        Length: {{ context.length.value.toExponential(3)
+        }}{{ context.length.unit }}, Diameter:
+        {{
+          (context.diameter.unit === 'AWG'
+            ? context.diameter.value * AWG_TO_METERS
+            : context.diameter.value
+          ).toExponential(3)
+        }}m
+      </p>
       <simulation-display
         :sim-info="engine"
         :is-simulation-on="isSimulationOn"
+        class="display"
       />
+      <img :src="materialImage" class="material" />
     </main>
     <side-bar :is-visible="showOutputBar">
       <h1 class="font-title">Technical Info</h1>
@@ -191,11 +235,51 @@ function getMaterialFromName(event) {
 }
 
 main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 10% 10% 50% 20% 10%;
+  grid-template-areas:
+    '. . .'
+    'info info info'
+    'positive display negative'
+    '. material .'
+    '. . .';
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
+}
+
+.info {
+  grid-area: info;
+  justify-self: center;
+  align-self: end;
+}
+
+.plus,
+.minus {
+  align-self: center;
+  justify-self: center;
+}
+
+.plus {
+  grid-area: positive;
+  color: red;
+}
+
+.minus {
+  grid-area: negative;
+  color: blue;
+}
+
+.display {
+  grid-area: display;
+  align-self: center;
+}
+
+.material {
+  grid-area: material;
+  justify-self: center;
+  align-self: center;
+  height: 100%;
 }
 
 .input {

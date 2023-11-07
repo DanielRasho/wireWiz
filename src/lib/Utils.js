@@ -1,3 +1,6 @@
+export const ELECTRON_CHARGE = 1.60217663e-19
+export const AWG_TO_METERS = 0.007348
+
 /**
  * Checks if n1 and n2 are a maximum of delta units apart.
  *

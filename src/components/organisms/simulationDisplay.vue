@@ -136,7 +136,7 @@ const setupInitialConditions = () => {
 
 <style scoped>
 canvas {
-  width: 70%;
+  width: 100%;
   aspect-ratio: 6 / 2;
   border: 1px solid white;
 }

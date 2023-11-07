@@ -20,9 +20,9 @@ export class SimulationContext {
 }
 
 export const EMPTY_CONTEXT = new SimulationContext(
-  new SimulationMagnitude('', 'Length', 'm'),
-  new SimulationMagnitude('', 'Diameter', 'm'),
-  new SimulationMagnitude('', 'Voltage', 'V'),
+  new SimulationMagnitude(0, 'Length', 'm'),
+  new SimulationMagnitude(0, 'Diameter', 'm'),
+  new SimulationMagnitude(0, 'Voltage', 'V'),
   new WireMaterial(
     '',
     new SimulationMagnitude(0, 'Charge Density', '1/m³'),

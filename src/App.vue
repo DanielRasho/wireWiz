@@ -23,12 +23,12 @@ const engine = ref(new SimulationEngine(context.value))
 
 const clearSignal = ref(false)
 
-const materialsList = Object.values(WIRE_MATERIALS).map(
-  (material) => {
-    const materialDensity = parseFloat(material.chargeDensity.value).toExponential(3)
-    return `${material.name} (${materialDensity} ${material.chargeDensity.unit})`
-  }
-)
+const materialsList = Object.values(WIRE_MATERIALS).map((material) => {
+  const materialDensity = parseFloat(
+    material.chargeDensity.value
+  ).toExponential(3)
+  return `${material.name} (${materialDensity} ${material.chargeDensity.unit})`
+})
 
 function startSimulation() {
   console.log(context)

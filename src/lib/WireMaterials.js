@@ -33,7 +33,7 @@ const AVOGADRO = 6.02214076e23
  * @returns {Number} La densidad de carga en electrones/m^3.
  */
 const computeChargeDensity = (electrons, molarMass, density) =>
-  (((electrons * AVOGADRO) / molarMass) * density * 100_00_00)
+  ((electrons * AVOGADRO) / molarMass) * density * 100_00_00
 
 /**
  * Enum of posible wire materials along with its

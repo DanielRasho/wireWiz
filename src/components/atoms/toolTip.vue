@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-
 const props = defineProps({
   message: {
     required: true,

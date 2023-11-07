@@ -37,7 +37,7 @@ const props = defineProps({
 
 .active {
   padding: 3ch;
-  width: 39ch;
+  width: 46ch;
   overflow: visible;
 }
 </style>

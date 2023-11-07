@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { SimulationMagnitude } from '../../lib/SimulationMagnitud'
 import dropDown from '../atoms/dropDown.vue'
 import ToolTip from '../atoms/toolTip.vue'

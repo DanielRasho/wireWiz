@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted, onUpdated, watch } from 'vue'
+import { ref, onMounted, onUpdated, watch } from 'vue'
 import { SimulationMagnitude } from '../../lib/SimulationMagnitud'
 
 /** Value to display */

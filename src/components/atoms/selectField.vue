@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import dropDown from './dropDown.vue'
 
 const isActive = ref(false)

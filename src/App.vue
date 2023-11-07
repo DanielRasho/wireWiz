@@ -141,7 +141,6 @@ function getMaterialFromName(event) {
         @field-updated="
           (n) => {
             context.diameter = n
-            console.log(context)
           }
         "
         @clear-succesful="clearSignalOff"

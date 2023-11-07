@@ -5,7 +5,6 @@ import { AWG_TO_METERS, ELECTRON_CHARGE } from '../lib/Utils'
 /**
  * Class responsable for calculating parameters for the given
  * wire context.
- * @param {SimulationContext} context
  */
 export class SimulationEngine {
   resistance = 0
@@ -13,8 +12,14 @@ export class SimulationEngine {
   power = 0
   dragVelocity = 0
   electronTravelTime = 0
+  totalElectrons = 1
 
+  /**
+   *
+   * @param {SimulationContext} context
+   */
   calculateFields(context) {
+    this.context = context
     console.log('The engine context is:', context)
 
     this.resistance = this.calculateResistence(context)
@@ -22,6 +27,13 @@ export class SimulationEngine {
     this.power = this.calculatePower(context)
     this.dragVelocity = this.calculateDragVelocity(context)
     this.electronTravelTime = this.calculateElectronTravelTime(context)
+    this.totalElectrons = this.calculateTotalElectrons(context)
+  }
+
+  calculateTotalElectrons(context) {
+    let wireTransversalArea = this.calculateTransversalArea(context)
+    let volume = wireTransversalArea * context.length.value
+    return context.material.chargeDensity.value * volume
   }
 
   calculateResistence(context) {

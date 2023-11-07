@@ -60,6 +60,10 @@ function hideUnitDropDown() {
 
 function changeUnit(newUnit) {
   currentUnit.value = newUnit
+  emit(
+    'fieldUpdated',
+    new SimulationMagnitude(currentValue.value, props.label, currentUnit.value)
+  )
 }
 
 onMounted(() => {

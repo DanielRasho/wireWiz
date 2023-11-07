@@ -11,6 +11,13 @@ import { WireMaterial } from './WireMaterials'
  * @param {WireMaterial} material wire material from WireMaterials Enum
  */
 export class SimulationContext {
+  /**
+   *
+   * @param {SimulationMagnitude} length wire length
+   * @param {SimulationMagnitude} diameter wire thickness
+   * @param {SimulationMagnitude} voltage voltage induced to the wire
+   * @param {WireMaterial} material wire material from WireMaterials Enum
+   */
   constructor(length, diameter, voltage, material) {
     this.length = length
     this.diameter = diameter

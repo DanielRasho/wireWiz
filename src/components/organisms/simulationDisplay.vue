@@ -7,12 +7,9 @@ import { onMounted, watch } from 'vue'
 import { randomIntBetween } from '../../lib/Utils'
 import Matter from 'matter-js'
 import { SimulationEngine } from '../../lib/SimulationEngine'
+import { WIRE_MATERIALS } from '../../lib/WireMaterials'
 
 const ELEMENT_ID = 'simulationContainer'
-const ELECTRONS_QUANTITY = {
-  min: 40,
-  max: 50
-}
 const ELECTRON_RADIUS = 5
 const VELOCITY_FACTOR = 1e12
 
@@ -66,6 +63,54 @@ watch(
     console.log('Prop `isSimulationOn` changed!', simulationIsOn)
     console.log('It was:', runner.enabled, 'before!')
 
+    if (simulationIsOn) {
+      const elem = document.getElementById(ELEMENT_ID)
+      const CANVAS_WIDTH = elem.clientWidth
+      const CANVAS_HEIGHT = elem.clientHeight
+
+      const ELECTRONS_COUNT = props.simInfo.totalElectrons * 1e-28
+      console.log(
+        'Electrons count',
+        ELECTRONS_COUNT,
+        props.simInfo.totalElectrons
+      )
+
+      electrons.splice(0, electrons.length)
+      for (let i = 0; i < ELECTRONS_COUNT; i++) {
+        const electron = Bodies.circle(
+          randomIntBetween(0 + ELECTRON_RADIUS, CANVAS_WIDTH - ELECTRON_RADIUS),
+          randomIntBetween(
+            0 + ELECTRON_RADIUS,
+            CANVAS_HEIGHT - ELECTRON_RADIUS
+          ),
+          ELECTRON_RADIUS,
+          {
+            frictionAir: 0
+          }
+        )
+
+        Events.on(runner, 'afterTick', () => {
+          const currentY = electron.position.y
+          const currentX = electron.position.x
+
+          if (currentX > CANVAS_WIDTH + ELECTRON_RADIUS) {
+            Matter.Body.setPosition(
+              electron,
+              Matter.Vector.create(0 - ELECTRON_RADIUS, currentY)
+            )
+          }
+        })
+
+        electrons.push(electron)
+      }
+
+      // add all of the bodies to the world
+      Composite.add(engine.world, electrons)
+    } else {
+      Composite.clear(engine.world, false, true)
+      Events.off(runner)
+    }
+
     const { simInfo } = props
     const velocity = simulationIsOn
       ? Matter.Vector.create(simInfo.dragVelocity * VELOCITY_FACTOR, 0)
@@ -98,39 +143,6 @@ const setupInitialConditions = () => {
       height: CANVAS_HEIGHT
     }
   })
-
-  const ELECTRONS_COUNT = randomIntBetween(
-    ELECTRONS_QUANTITY.min,
-    ELECTRONS_QUANTITY.max
-  )
-  electrons.splice(0, electrons.length)
-  for (let i = 0; i < ELECTRONS_COUNT; i++) {
-    const electron = Bodies.circle(
-      randomIntBetween(0 + ELECTRON_RADIUS, CANVAS_WIDTH - ELECTRON_RADIUS),
-      randomIntBetween(0 + ELECTRON_RADIUS, CANVAS_HEIGHT - ELECTRON_RADIUS),
-      ELECTRON_RADIUS,
-      {
-        frictionAir: 0
-      }
-    )
-
-    Events.on(runner, 'afterTick', () => {
-      const currentY = electron.position.y
-      const currentX = electron.position.x
-
-      if (currentX > CANVAS_WIDTH + ELECTRON_RADIUS) {
-        Matter.Body.setPosition(
-          electron,
-          Matter.Vector.create(0 - ELECTRON_RADIUS, currentY)
-        )
-      }
-    })
-
-    electrons.push(electron)
-  }
-
-  // add all of the bodies to the world
-  Composite.add(engine.world, electrons)
 }
 </script>
 

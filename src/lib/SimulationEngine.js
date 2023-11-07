@@ -7,10 +7,6 @@ import { diameterUnits } from './WireMaterials'
  * @param {SimulationContext} context
  */
 export class SimulationEngine {
-  constructor(context) {
-    this.context = context
-    this.calculateFields()
-  }
 
   ELECTRON_CHARGE = 1.60217663e-19
   AWG_TO_METERS = 0.007348
@@ -22,55 +18,50 @@ export class SimulationEngine {
   electronTravelTime = 0
 
   calculateFields(context) {
-    console.log(this.context)
-    this.resistance = this.calculateResistence()
-    this.electricCurrent = this.calculateCurrent()
-    this.power = this.calculatePower()
-    this.dragVelocity = this.calculateDragVelocity()
-    this.electronTravelTime = this.calculateElectronTravelTime()
+    console.log("The engine context is:", context)
+
+    this.resistance = this.calculateResistence(context)
+    this.electricCurrent = this.calculateCurrent(context)
+    this.power = this.calculatePower(context)
+    this.dragVelocity = this.calculateDragVelocity(context)
+    this.electronTravelTime = this.calculateElectronTravelTime(context)
   }
 
-  //   set Context(context) {
-  //     this.context = context
-  //     this.calculateFields()
-  //   }
-
-  calculateResistence() {
-    let wireTransversalArea = this.calculateTransversalArea()
-    console.log('transversal:' + wireTransversalArea)
+  calculateResistence(context) {
+    let wireTransversalArea = this.calculateTransversalArea(context)
     return (
-      (this.context.material.resistivity.value * this.context.length.value) /
+      (context.material.resistivity.value * context.length.value) /
       wireTransversalArea
     ).toExponential(4)
   }
 
-  calculateCurrent() {
-    return (this.context.voltage.value / this.resistance).toExponential(4)
+  calculateCurrent(context) {
+    return (context.voltage.value / this.calculateResistence(context)).toExponential(4)
   }
 
-  calculatePower() {
-    return (this.context.voltage.value * this.electricCurrent).toExponential(4)
+  calculatePower(context) {
+    return (context.voltage.value * this.calculateCurrent(context)).toExponential(4)
   }
 
-  calculateDragVelocity() {
+  calculateDragVelocity(context) {
     return (
-      this.electricCurrent /
-      (this.calculateTransversalArea() *
-        this.context.material.chargeDensity.value *
+      this.calculateCurrent(context) /
+      (this.calculateTransversalArea(context) *
+        context.material.chargeDensity.value *
         this.ELECTRON_CHARGE)
     ).toExponential(4)
   }
 
-  calculateElectronTravelTime() {
-    return (this.context.length.value / this.dragVelocity).toExponential(4)
+  calculateElectronTravelTime(context) {
+    return (context.length.value / this.calculateDragVelocity(context)).toExponential(4)
   }
 
-  calculateTransversalArea() {
-    let wireDimensions = this.context.diameter.unit
+  calculateTransversalArea(context) {
+    let wireDimensions = context.diameter.unit
     let wireDiameter =
       wireDimensions == diameterUnits.AWG
-        ? AWG_TO_METERS * this.context.diameter.value
-        : this.context.diameter.value
+        ? AWG_TO_METERS * context.diameter.value
+        : context.diameter.value
     return (Math.PI * Math.pow(wireDiameter, 2)) / 4
   }
 }

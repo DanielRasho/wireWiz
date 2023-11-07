@@ -7,6 +7,13 @@
  * @param {Number} delta
  * @returns {Boolean}
  */
-export const floatEquals = (n1, n2, delta) => {
-  return Math.abs(n1 - n2) < delta
-}
+export const floatEquals = (n1, n2, delta) => Math.abs(n1 - n2) < delta
+
+/**
+ * Generates a random number between min and max, both inclusive.
+ * 
+ * @param {Number} min 
+ * @param {Number} max 
+ * @returns {Number}
+ */
+export const randomIntBetween = (min, max) => Math.random() * (max - min) + min

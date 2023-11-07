@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:id="ELEMENT_ID"></div>
+  <canvas v-bind:id="ELEMENT_ID"></canvas>
 </template>
 
 <script setup>
@@ -44,36 +44,21 @@ let runner
 let electrons = []
 
 onMounted(() => {
-  console.log('OnMounted called!')
-  setupSimulation()
-})
-
-const setupSimulation = () => {
   // create an engine
   engine = Engine.create({
     gravity: {
       y: 0
     }
   })
-
   // create runner
   runner = Runner.create()
 
-  // add window resize handler
-  window.addEventListener('resize', () => {
-    // TODO Update logic to resize
-    // const elem = document.getElementById(ELEMENT_ID)
-    // const ELEMENT_WIDTH = elem.clientWidth
-    // const ELEMENT_HEIGHT = elem.clientHeight
-    // engine.world.bounds.max.x = ELEMENT_WIDTH;
-    // engine.world.bounds.max.y = ELEMENT_HEIGHT;
-  })
   setupInitialConditions(engine)
 
   // Make "one frame" for the initial conditions...
   Runner.run(runner, engine)
   Render.run(render)
-}
+})
 
 watch(
   () => props.isSimulationOn,
@@ -98,26 +83,19 @@ watch(
  * @param {Matter.Engine} engine
  */
 const setupInitialConditions = () => {
-  if (render !== undefined) {
-    Matter.World.clear(engine.world)
-    Engine.clear(engine)
-    // render?.canvas.remove()
-  }
-
   const elem = document.getElementById(ELEMENT_ID)
-  const ELEMENT_WIDTH = elem.clientWidth
-  const ELEMENT_HEIGHT = elem.clientHeight
+  const CANVAS_WIDTH = elem.clientWidth
+  const CANVAS_HEIGHT = elem.clientHeight
 
   // create a renderer
   render = Render.create({
-    element: elem,
+    canvas: elem,
     engine: engine,
     options: {
       background: 'transparent',
       wireframeBackground: 'transparent',
-      width: ELEMENT_WIDTH,
-      height: ELEMENT_HEIGHT
-      // showAngleIndicator: true
+      width: CANVAS_WIDTH,
+      height: CANVAS_HEIGHT
     }
   })
 
@@ -128,8 +106,8 @@ const setupInitialConditions = () => {
   electrons.splice(0, electrons.length)
   for (let i = 0; i < ELECTRONS_COUNT; i++) {
     const electron = Bodies.circle(
-      randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_WIDTH - ELECTRON_RADIUS),
-      randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_HEIGHT - ELECTRON_RADIUS),
+      randomIntBetween(0 + ELECTRON_RADIUS, CANVAS_WIDTH - ELECTRON_RADIUS),
+      randomIntBetween(0 + ELECTRON_RADIUS, CANVAS_HEIGHT - ELECTRON_RADIUS),
       ELECTRON_RADIUS,
       {
         frictionAir: 0
@@ -140,7 +118,7 @@ const setupInitialConditions = () => {
       const currentY = electron.position.y
       const currentX = electron.position.x
 
-      if (currentX > elem.offsetWidth + ELECTRON_RADIUS) {
+      if (currentX > CANVAS_WIDTH + ELECTRON_RADIUS) {
         Matter.Body.setPosition(
           electron,
           Matter.Vector.create(0 - ELECTRON_RADIUS, currentY)
@@ -157,7 +135,7 @@ const setupInitialConditions = () => {
 </script>
 
 <style scoped>
-#simulationContainer {
+canvas {
   width: 70%;
   aspect-ratio: 6 / 2;
   border: 1px solid white;

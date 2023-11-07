@@ -6,7 +6,7 @@
 import { onMounted } from 'vue'
 import { AnimationEngine } from '../../lib/AnimationEngine'
 
-let engine;
+let engine
 
 onMounted(() => {
   engine = new AnimationEngine(document.getElementById('simulationContainer'))

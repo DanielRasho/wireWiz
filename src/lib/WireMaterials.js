@@ -25,7 +25,7 @@ export const diameterUnits = Object.freeze({
  * Enum of posible wire materials along with its
  * electrons density.
  */
-export const WireMaterials = Object.freeze({
+export const WIRE_MATERIALS = Object.freeze({
   GOLD: new WireMaterial(
     'Gold',
     new SimulationMagnitude(300, 'Charge Density', '1/m³'),

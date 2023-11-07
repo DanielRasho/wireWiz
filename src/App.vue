@@ -5,10 +5,13 @@ import buttonPush from './components/atoms/buttonPush.vue'
 import numberInputAdvanced from './components/molecules/numberInputAdvanced.vue'
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
-import { computed, reactive, ref, watch } from 'vue'
-import { SimulationContext, EMPTY_CONTEXT } from './lib/SimulationContext'
-import { SimulationMagnitude } from './lib/SimulationMagnitud'
-import { WireMaterial, WireMaterials, diameterUnits } from './lib/WireMaterials'
+import { computed, ref } from 'vue'
+import { EMPTY_CONTEXT } from './lib/SimulationContext'
+import {
+  WireMaterial,
+  WIRE_MATERIALS,
+  diameterUnits
+} from './lib/WireMaterials'
 import { SimulationEngine } from './lib/SimulationEngine'
 
 const isSimulationOn = ref(false)
@@ -19,14 +22,24 @@ const engine = ref(new SimulationEngine(context.value))
 
 const clearSignal = ref(false)
 
-const materialsList = Object.values(WireMaterials).map(
+const materialsList = Object.values(WIRE_MATERIALS).map(
   (material) => `${material.name} (${material.chargeDensity.unit})`
 )
 
 function startSimulation() {
   console.log(context)
-  isSimulationOn.value = true
-  engine.value.calculateFields(context.value)
+  // Check if all fields are fulfilled.
+  if (
+    context.value.diameter.value == '' ||
+    context.value.length.value == '' ||
+    context.value.voltage.value == '' ||
+    context.value.material.name == ''
+  ) {
+    alert('All fields must be filled >:[')
+  } else {
+    isSimulationOn.value = true
+    engine.value.calculateFields(context.value)
+  }
 }
 
 function endSimulation() {
@@ -62,14 +75,12 @@ const showOutputBar = computed(() => {
  * @param {String} selectedOption
  * @returns {WireMaterial} Matching material from WireMaterials Enum.
  */
-function getMaterialtOfChargeDensity(selectedOption) {
-  let materialName = selectedOption.split(' ')[0]
-  context.value.material = Object.values(WireMaterials).find(
+function getMaterialFromName(event) {
+  let materialName = event.split(' ')[0]
+  context.value.material = Object.values(WIRE_MATERIALS).find(
     (o) => o.name == materialName
   )
 }
-
-// watch(context, (newv, oldv) => { console.log ("ATTRIBUTES CHANGED!")}, {deep: true})
 </script>
 
 <template>
@@ -118,6 +129,7 @@ function getMaterialtOfChargeDensity(selectedOption) {
         label="Material"
         :options="materialsList"
         :clear="clearSignal"
+        @field-updated="getMaterialFromName"
         @clear-succesful="clearSignalOff"
       />
       <button-push class="submit-btn" width="25ch" @click="startSimulation">

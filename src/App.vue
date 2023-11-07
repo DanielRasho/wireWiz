@@ -91,22 +91,51 @@ function getMaterialFromName(event) {
   <div id="window">
     <side-bar :is-visible="showInputBar">
       <h1 class="font-title">Properties</h1>
-      <number-input class="input" label="Length" unit="m" :clear="clearSignal" @field-updated="(n) => {
-        context.length = n
-      }
-        " @clear-succesful="clearSignalOff" />
-      <number-input-advanced class="input" label="Diameter" :units="Object.values(diameterUnits)" :clear="clearSignal"
-        @field-updated="(n) => {
-          context.diameter = n
-          console.log(context)
-        }
-          " @clear-succesful="clearSignalOff" />
-      <number-input class="input" label="Voltage" unit="V" :clear="clearSignal" @field-updated="(n) => {
-        context.voltage = n
-      }
-        " @clear-succesful="clearSignalOff" />
-      <select-field class="input" label="Material" :options="materialsList" :clear="clearSignal"
-        @field-updated="getMaterialFromName" @clear-succesful="clearSignalOff" />
+      <number-input
+        class="input"
+        label="Length"
+        unit="m"
+        :clear="clearSignal"
+        @field-updated="
+          (n) => {
+            context.length = n
+          }
+        "
+        @clear-succesful="clearSignalOff"
+      />
+      <number-input-advanced
+        class="input"
+        label="Diameter"
+        :units="Object.values(diameterUnits)"
+        :clear="clearSignal"
+        @field-updated="
+          (n) => {
+            context.diameter = n
+            console.log(context)
+          }
+        "
+        @clear-succesful="clearSignalOff"
+      />
+      <number-input
+        class="input"
+        label="Voltage"
+        unit="V"
+        :clear="clearSignal"
+        @field-updated="
+          (n) => {
+            context.voltage = n
+          }
+        "
+        @clear-succesful="clearSignalOff"
+      />
+      <select-field
+        class="input"
+        label="Material"
+        :options="materialsList"
+        :clear="clearSignal"
+        @field-updated="getMaterialFromName"
+        @clear-succesful="clearSignalOff"
+      />
       <button-push class="submit-btn" width="25ch" @click="startSimulation">
         Simulate <i class="fa-solid fa-play"></i>
       </button-push>
@@ -115,15 +144,38 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
-      <simulation-display :sim-info="engine" :is-simulation-on="isSimulationOn" />
+      <simulation-display
+        :sim-info="engine"
+        :is-simulation-on="isSimulationOn"
+      />
     </main>
     <side-bar :is-visible="showOutputBar">
       <h1 class="font-title">Technical Info</h1>
-      <number-text class="input" label="Resistance" :text="engine.resistance" unit="Ohms" />
-      <number-text class="input" label="Current" :text="engine.electricCurrent" unit="A" />
+      <number-text
+        class="input"
+        label="Resistance"
+        :text="engine.resistance"
+        unit="Ohms"
+      />
+      <number-text
+        class="input"
+        label="Current"
+        :text="engine.electricCurrent"
+        unit="A"
+      />
       <number-text class="input" label="Power" :text="engine.power" unit="W" />
-      <number-text class="input" label="Drag Speed" :text="engine.dragVelocity" unit="m/s" />
-      <number-text class="input" label="Travel time" :text="engine.electronTravelTime" unit="min" />
+      <number-text
+        class="input"
+        label="Drag Speed"
+        :text="engine.dragVelocity"
+        unit="m/s"
+      />
+      <number-text
+        class="input"
+        label="Travel time"
+        :text="engine.electronTravelTime"
+        unit="min"
+      />
 
       <button-push class="stop-btn" width="25ch" @click="endSimulation">
         Stop <i class="fa-solid fa-pause"></i>

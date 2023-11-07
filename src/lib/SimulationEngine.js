@@ -7,7 +7,6 @@ import { diameterUnits } from './WireMaterials'
  * @param {SimulationContext} context
  */
 export class SimulationEngine {
-
   ELECTRON_CHARGE = 1.60217663e-19
   AWG_TO_METERS = 0.007348
 
@@ -18,7 +17,7 @@ export class SimulationEngine {
   electronTravelTime = 0
 
   calculateFields(context) {
-    console.log("The engine context is:", context)
+    console.log('The engine context is:', context)
 
     this.resistance = this.calculateResistence(context)
     this.electricCurrent = this.calculateCurrent(context)
@@ -36,11 +35,15 @@ export class SimulationEngine {
   }
 
   calculateCurrent(context) {
-    return (context.voltage.value / this.calculateResistence(context)).toExponential(4)
+    return (
+      context.voltage.value / this.calculateResistence(context)
+    ).toExponential(4)
   }
 
   calculatePower(context) {
-    return (context.voltage.value * this.calculateCurrent(context)).toExponential(4)
+    return (
+      context.voltage.value * this.calculateCurrent(context)
+    ).toExponential(4)
   }
 
   calculateDragVelocity(context) {
@@ -53,7 +56,9 @@ export class SimulationEngine {
   }
 
   calculateElectronTravelTime(context) {
-    return (context.length.value / this.calculateDragVelocity(context)).toExponential(4)
+    return (
+      context.length.value / this.calculateDragVelocity(context)
+    ).toExponential(4)
   }
 
   calculateTransversalArea(context) {

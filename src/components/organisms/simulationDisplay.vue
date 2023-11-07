@@ -6,7 +6,7 @@
 import { onMounted, watch } from 'vue'
 import { randomIntBetween } from '../../lib/Utils'
 import Matter from 'matter-js'
-import { SimulationEngine } from '../../lib/SimulationEngine';
+import { SimulationEngine } from '../../lib/SimulationEngine'
 
 const ELEMENT_ID = 'simulationContainer'
 const ELECTRONS_QUANTITY = {
@@ -44,7 +44,7 @@ let runner
 let electrons = []
 
 onMounted(() => {
-  console.log("OnMounted called!")
+  console.log('OnMounted called!')
   setupSimulation()
 })
 
@@ -65,7 +65,6 @@ const setupSimulation = () => {
     // const elem = document.getElementById(ELEMENT_ID)
     // const ELEMENT_WIDTH = elem.clientWidth
     // const ELEMENT_HEIGHT = elem.clientHeight
-
     // engine.world.bounds.max.x = ELEMENT_WIDTH;
     // engine.world.bounds.max.y = ELEMENT_HEIGHT;
   })
@@ -79,14 +78,16 @@ const setupSimulation = () => {
 watch(
   () => props.isSimulationOn,
   (simulationIsOn) => {
-    console.log("Prop `isSimulationOn` changed!", simulationIsOn)
-    console.log("It was:", runner.enabled, "before!")
+    console.log('Prop `isSimulationOn` changed!', simulationIsOn)
+    console.log('It was:', runner.enabled, 'before!')
 
     const { simInfo } = props
-    const velocity = simulationIsOn ? Matter.Vector.create(simInfo.dragVelocity * VELOCITY_FACTOR, 0) : Matter.Vector.create(0, 0)
+    const velocity = simulationIsOn
+      ? Matter.Vector.create(simInfo.dragVelocity * VELOCITY_FACTOR, 0)
+      : Matter.Vector.create(0, 0)
 
     for (let i = 0; i < electrons.length; i++) {
-      const electron = electrons[i];
+      const electron = electrons[i]
       Matter.Body.setVelocity(electron, velocity)
     }
   }
@@ -115,24 +116,35 @@ const setupInitialConditions = () => {
       background: 'transparent',
       wireframeBackground: 'transparent',
       width: ELEMENT_WIDTH,
-      height: ELEMENT_HEIGHT,
+      height: ELEMENT_HEIGHT
       // showAngleIndicator: true
     }
   })
 
-  const ELECTRONS_COUNT = randomIntBetween(ELECTRONS_QUANTITY.min, ELECTRONS_QUANTITY.max)
+  const ELECTRONS_COUNT = randomIntBetween(
+    ELECTRONS_QUANTITY.min,
+    ELECTRONS_QUANTITY.max
+  )
   electrons.splice(0, electrons.length)
   for (let i = 0; i < ELECTRONS_COUNT; i++) {
-    const electron = Bodies.circle(randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_WIDTH - ELECTRON_RADIUS), randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_HEIGHT - ELECTRON_RADIUS), ELECTRON_RADIUS, {
-      frictionAir: 0
-    })
+    const electron = Bodies.circle(
+      randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_WIDTH - ELECTRON_RADIUS),
+      randomIntBetween(0 + ELECTRON_RADIUS, ELEMENT_HEIGHT - ELECTRON_RADIUS),
+      ELECTRON_RADIUS,
+      {
+        frictionAir: 0
+      }
+    )
 
-    Events.on(runner, "afterTick", () => {
+    Events.on(runner, 'afterTick', () => {
       const currentY = electron.position.y
       const currentX = electron.position.x
 
       if (currentX > elem.offsetWidth + ELECTRON_RADIUS) {
-        Matter.Body.setPosition(electron, Matter.Vector.create(0 - ELECTRON_RADIUS, currentY))
+        Matter.Body.setPosition(
+          electron,
+          Matter.Vector.create(0 - ELECTRON_RADIUS, currentY)
+        )
       }
     })
 

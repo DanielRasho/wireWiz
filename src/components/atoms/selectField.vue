@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted, computed } from 'vue'
+import { ref, defineEmits, computed, watch } from 'vue'
 import dropDown from './dropDown.vue'
 
 const isActive = ref(false)
@@ -52,10 +52,9 @@ function hideDropDown() {
 
 function selectOption(selectedOption) {
   currentValue.value = selectedOption
-  emit('fieldUpdated', currentValue.value)
 }
 
-const emit = defineEmits(['fieldUpdated'])
+const emit = defineEmits(['fieldUpdated', 'clearSuccesful'])
 
 const props = defineProps({
   label: {
@@ -74,8 +73,41 @@ const props = defineProps({
     required: false,
     type: String,
     default: '30ch'
+  },
+  /** Works as a signal,
+   * when True: clear the input values.
+   * IMPORTANT : Must be set to false again by parent if want to reset again
+   * when False: Do nothing */
+  clear: {
+    required: false,
+    type: Boolean,
+    default: false
   }
 })
+
+/**
+ * Watches for changes in currentValue (Source of truth). And emits the
+ * the signal to parent component the input value has changed.
+ */
+watch(currentValue, (newVal, oldVal) => {
+  emit('fieldUpdated', newVal)
+})
+
+/**
+ * Watches the clear prop. If the clear signal is on, it forces the currentValue
+ * and displayValue to empty themselves: Clearing the info.
+ * Emits the signal that values were succesfully cleared.
+ */
+watch(
+  () => props.clear,
+  (newClearSignal, oldClearSignal) => {
+    if (newClearSignal == true) {
+      console.log('RESET SIGNAL!')
+      currentValue.value = ''
+      emit('clearSuccesful')
+    }
+  }
+)
 </script>
 
 <style scoped>

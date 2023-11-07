@@ -18,12 +18,12 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits, onMounted, onUpdated, watch } from 'vue'
 import { SimulationMagnitude } from '../../lib/SimulationMagnitud'
 
 /** Value to display */
 const displayValue = ref('')
-/** Last valid value */
+/** The source of true, dictates the real stored value */
 const currentValue = ref('')
 
 onMounted(() => {
@@ -31,7 +31,7 @@ onMounted(() => {
   currentValue.value = props.initialValue
 })
 
-const emit = defineEmits(['fieldUpdated'])
+const emit = defineEmits(['fieldUpdated', 'clearSuccesful'])
 
 const props = defineProps({
   label: {
@@ -57,7 +57,18 @@ const props = defineProps({
     type: String,
     default: '30ch'
   },
+
   disabled: {
+    required: false,
+    type: Boolean,
+    default: false
+  },
+
+  /** Works as a signal,
+   * when True: clear the input values.
+   * IMPORTANT : Must be set to false again by parent if want to reset again
+   * when False: Do nothing */
+  clear: {
     required: false,
     type: Boolean,
     default: false
@@ -78,7 +89,32 @@ const props = defineProps({
 })
 
 /**
- * Check if value is valid, if not return it to the last valid value
+ * Watches for changes in currentValue (Source of truth). And emits the
+ * the signal to parent component the input value has changed.
+ */
+watch(currentValue, (newVal, oldVal) => {
+  emit('fieldUpdated', new SimulationMagnitude(newVal, props.label, props.unit))
+})
+
+/**
+ * Watches the clear prop. If the clear signal is on, it forces the currentValue
+ * and displayValue to empty themselves: Clearing the info.
+ * Emits the signal that values were succesfully cleared.
+ */
+watch(
+  () => props.clear,
+  (newClearSignal, oldClearSignal) => {
+    if (newClearSignal == true) {
+      console.log('RESET SIGNAL!')
+      displayValue.value = ''
+      currentValue.value = ''
+      emit('clearSuccesful')
+    }
+  }
+)
+
+/**
+ * Check if value written by user is valid, if not return it to the last valid value
  * stored in currentValue, otherwise emit the <fieldUpdate> event.
  * @param {*} event input value after user exit writting
  */
@@ -90,10 +126,6 @@ function updateValue(event) {
   } else {
     console.log(`Valid value for ${props.label}`)
     currentValue.value = parseFloat(futureValue)
-    emit(
-      'fieldUpdated',
-      new SimulationMagnitude(currentValue.value, props.label, props.unit)
-    )
   }
 }
 </script>

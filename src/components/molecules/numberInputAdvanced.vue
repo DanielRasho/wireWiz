@@ -34,21 +34,21 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits, onMounted, watch } from 'vue'
 import { SimulationMagnitude } from '../../lib/SimulationMagnitud'
 import dropDown from '../atoms/dropDown.vue'
 import ToolTip from '../atoms/toolTip.vue'
 
 /** Value to display */
 const displayValue = ref('')
-/** Last valid value */
+/** The source of true, dictates the real stored value */
 const currentValue = ref('')
 
 const currentUnit = ref('unit')
 
 const isDropDownActive = ref(false)
 
-const emit = defineEmits(['fieldUpdated'])
+const emit = defineEmits(['fieldUpdated', 'clearSuccesful'])
 
 function showUnitDropDown() {
   isDropDownActive.value = !isDropDownActive.value
@@ -60,30 +60,6 @@ function hideUnitDropDown() {
 
 function changeUnit(newUnit) {
   currentUnit.value = newUnit
-}
-
-/**
- * Check if value is valid, if not return it to the last valid value
- * stored in currentValue, otherwise emit the <fieldUpdate> event.
- * @param {*} event input value after user exit writting
- */
-function updateValue(event) {
-  let futureValue = event.target.value
-  if (Number.isNaN(parseFloat(futureValue)) || props.guardInput(futureValue)) {
-    console.log(`Not valid value for ${props.label}`)
-    displayValue.value = currentValue.value
-  } else {
-    console.log(`Valid value for ${props.label}`)
-    currentValue.value = parseFloat(futureValue)
-    emit(
-      'fieldUpdated',
-      new SimulationMagnitude(
-        currentValue.value,
-        props.label,
-        currentUnit.value
-      )
-    )
-  }
 }
 
 onMounted(() => {
@@ -108,6 +84,16 @@ const props = defineProps({
     type: String,
     default: '30ch'
   },
+
+  /** Works as a signal,
+   * when True: clear the input values.
+   * IMPORTANT : Must be set to false again by parent if want to reset again
+   * when False: Do nothing */
+  clear: {
+    required: false,
+    type: Boolean,
+    default: false
+  },
   /**
    * Must be a Predicate (Function that recives a value and return a boolean) :
    * Used for for double-cheking if input is correct
@@ -121,6 +107,47 @@ const props = defineProps({
     }
   }
 })
+
+/**
+ * Watches for changes in currentValue (Source of truth). And emits the
+ * the signal to parent component the input value has changed.
+ */
+watch(currentValue, (newVal, oldVal) => {
+  emit('fieldUpdated', new SimulationMagnitude(newVal, props.label, props.unit))
+})
+
+/**
+ * Watches the clear prop. If the clear signal is on, it forces the currentValue
+ * and displayValue to empty themselves: Clearing the info.
+ * Emits the signal that values were succesfully cleared.
+ */
+watch(
+  () => props.clear,
+  (newClearSignal, oldClearSignal) => {
+    if (newClearSignal == true) {
+      console.log('RESET SIGNAL!')
+      displayValue.value = ''
+      currentValue.value = ''
+      emit('clearSuccesful')
+    }
+  }
+)
+
+/**
+ * Check if value written by user is valid, if not return it to the last valid value
+ * stored in currentValue, otherwise emit the <fieldUpdate> event.
+ * @param {*} event input value after user exit writting
+ */
+function updateValue(event) {
+  let futureValue = event.target.value
+  if (Number.isNaN(parseFloat(futureValue)) || props.guardInput(futureValue)) {
+    console.log(`Not valid value for ${props.label}`)
+    displayValue.value = currentValue.value
+  } else {
+    console.log(`Valid value for ${props.label}`)
+    currentValue.value = parseFloat(futureValue)
+  }
+}
 </script>
 
 <style scoped>

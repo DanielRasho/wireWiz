@@ -1,5 +1,13 @@
 <template>
-  <canvas v-bind:id="ELEMENT_ID"></canvas>
+  <div>
+    <svg class="oval" viewBox="0 0 30 90" width="8%" height="100%">
+  <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1"/>
+  </svg>
+    <canvas v-bind:id="ELEMENT_ID"></canvas>
+    <svg class="oval" viewBox="0 0 30 90" width="8%" height="100%">
+  <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1"/>
+  </svg>
+  </div>
 </template>
 
 <script setup>
@@ -157,6 +165,22 @@ const setupInitialConditions = () => {
 </script>
 
 <style scoped>
+
+.oval {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+ellipse {
+  fill: var(--background);
+  stroke: white;
+}
+
+div{
+  width: 100%;
+  position: relative;
+}
+
 canvas {
   width: 100%;
   aspect-ratio: 6 / 2;

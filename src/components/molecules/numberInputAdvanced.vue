@@ -27,7 +27,8 @@
         ></drop-down>
       </span>
     </div>
-    <tool-tip class="tooltip"
+    <tool-tip
+      class="tooltip"
       message="You can change the metric unit by clicking it!"
     ></tool-tip>
   </div>
@@ -158,7 +159,6 @@ function updateValue(event) {
 </script>
 
 <style scoped>
-
 .container {
   position: relative;
 }
@@ -239,7 +239,7 @@ function updateValue(event) {
 
 .tooltip {
   position: absolute;
-  right : 0;
+  right: 0;
   top: 25%;
   transform: translateX(105%);
 }

@@ -22,6 +22,7 @@ const props = defineProps({
 
   padding: 0;
   width: 0;
+  min-width: 0;
 
   background-color: var(--background);
   border-right: 1px solid black;
@@ -37,7 +38,8 @@ const props = defineProps({
 
 .active {
   padding: 3ch;
-  width: 46ch;
+  width: 38ch;
+  min-width: 38ch;
   overflow: visible;
 }
 </style>

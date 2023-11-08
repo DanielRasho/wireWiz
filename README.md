@@ -8,18 +8,18 @@
 
 Made with [VueJS](https://vuejs.org/)
 
-🔴 **Live View:** [***Here***](https://danielrasho.github.io/BlackCharge/)
+🔴 **Live Demo:** [***Here***](https://danielrasho.github.io/wireWiz/)
 
 🔴 **Video Demostration:** [***Here***](https://youtu.be/SAvX03AomgI)
 
-Made with <3 by
+Made with 💚 by
 
 - Flavio Galan
 - Daniel Rayo
 
 🔴 **Known Bugs:** 
 
-- Crash when reloading the page.
+- None detected.
 
 ### Recommended IDE Setup
 

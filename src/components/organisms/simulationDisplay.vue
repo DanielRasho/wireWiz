@@ -92,11 +92,21 @@ watch(
         Events.on(runner, 'afterTick', () => {
           const currentY = electron.position.y
           const currentX = electron.position.x
+          const outOfBoundsOnRight = currentX > CANVAS_WIDTH + ELECTRON_RADIUS
+          const outOfBoundsOnLeft = currentX < 0 - ELECTRON_RADIUS
+          const velocityIsPositive = simInfo.dragVelocity > 0
 
-          if (currentX > CANVAS_WIDTH + ELECTRON_RADIUS) {
+          if (velocityIsPositive && outOfBoundsOnRight) {
             Matter.Body.setPosition(
               electron,
               Matter.Vector.create(0 - ELECTRON_RADIUS, currentY)
+            )
+          }
+
+          if (!velocityIsPositive && outOfBoundsOnLeft) {
+            Matter.Body.setPosition(
+              electron,
+              Matter.Vector.create(CANVAS_WIDTH + ELECTRON_RADIUS, currentY)
             )
           }
         })

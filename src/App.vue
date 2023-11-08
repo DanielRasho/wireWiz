@@ -3,6 +3,7 @@ import NumberInput from './components/atoms/numberInput.vue'
 import selectField from './components/atoms/selectField.vue'
 import buttonPush from './components/atoms/buttonPush.vue'
 import numberInputAdvanced from './components/molecules/numberInputAdvanced.vue'
+import switchButton from './components/atoms/switchButton.vue'
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
 import simulationDisplay from './components/organisms/simulationDisplay.vue'
@@ -111,7 +112,7 @@ function getMaterialFromName(event) {
     case 'Graphite':
       materialImage.value = GraphiteLogo
       break
-    case '' :
+    case '':
       materialImage.value = GraphiteLogo
     default:
       materialImage.value = NoneLogo
@@ -168,6 +169,7 @@ function getMaterialFromName(event) {
         @field-updated="getMaterialFromName"
         @clear-succesful="clearSignalOff"
       />
+      <switch-button class="input"></switch-button>
       <button-push class="submit-btn" width="25ch" @click="startSimulation">
         Simulate <i class="fa-solid fa-play"></i>
       </button-push>

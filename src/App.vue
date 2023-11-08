@@ -6,6 +6,7 @@ import numberInputAdvanced from './components/molecules/numberInputAdvanced.vue'
 import sideBar from './components/organisms/sideBar.vue'
 import numberText from './components/atoms/numberText.vue'
 import simulationDisplay from './components/organisms/simulationDisplay.vue'
+import numberDisplay from './components/atoms/numberDisplay.vue'
 import { computed, ref, toRaw } from 'vue'
 import { EMPTY_CONTEXT } from './lib/SimulationContext'
 import {
@@ -175,8 +176,8 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
-      <p class="plus font-title">{{ -1 * context.voltage.value }} V</p>
-      <p class="minus font-title">{{ context.voltage.value }} V</p>
+      <number-display :class="'left'" :value="-context.voltage.value" postfix="V" />
+      <number-display :class="'right'" :value="context.voltage.value" postfix="V" />
       <p class="info font-subtitle">
         Length: {{ context.length.value.toExponential(3)
         }}{{ context.length.unit }}, Diameter:
@@ -242,7 +243,7 @@ main {
   grid-template-areas:
     '. . .'
     'info info info'
-    'positive display negative'
+    'left display right'
     '. material .'
     '. . .';
   position: relative;
@@ -255,20 +256,12 @@ main {
   align-self: end;
 }
 
-.plus,
-.minus {
-  align-self: center;
-  justify-self: center;
+.left {
+  grid-area: left;
 }
 
-.plus {
-  grid-area: positive;
-  color: var(--primary);
-}
-
-.minus {
-  grid-area: negative;
-  color: var(--on-info);
+.right {
+  grid-area: right;
 }
 
 .display {

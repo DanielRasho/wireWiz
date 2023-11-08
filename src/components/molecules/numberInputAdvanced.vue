@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="inputBox">
       <input
         class="font-body"
@@ -27,7 +27,7 @@
         ></drop-down>
       </span>
     </div>
-    <tool-tip
+    <tool-tip class="tooltip"
       message="You can change the metric unit by clicking it!"
     ></tool-tip>
   </div>
@@ -158,6 +158,10 @@ function updateValue(event) {
 </script>
 
 <style scoped>
+
+.container {
+  position: relative;
+}
 .inputBox {
   position: relative;
   width: 30ch;
@@ -231,5 +235,12 @@ function updateValue(event) {
 }
 .field-unit:hover {
   color: var(--secondary) !important;
+}
+
+.tooltip {
+  position: absolute;
+  right : 0;
+  top: 25%;
+  transform: translateX(105%);
 }
 </style>

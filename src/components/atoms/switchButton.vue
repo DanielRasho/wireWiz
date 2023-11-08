@@ -105,14 +105,14 @@ watch(
       linear,
       left top,
       right top,
-      color-stop(50%, var(--outline)),
-      color-stop(50%, var(--background))
+      color-stop(50%, var(--background)),
+      color-stop(50%, var(--primary))
     )
     no-repeat;
   background: -o-linear-gradient(
       left,
-      var(--outline) 50%,
-      var(--background) 50%
+      var(--background) 50%,
+      var(--primary) 50%
     )
     no-repeat;
   background: linear-gradient(
@@ -151,7 +151,11 @@ watch(
       color-stop(50%, var(--primary))
     )
     no-repeat;
-  background: -o-linear-gradient(left, var(--outline) 50%, var(--primary) 50%)
+  background: -o-linear-gradient(
+      left,
+      var(--background) 50%,
+      var(--primary) 50%
+    )
     no-repeat;
   background: linear-gradient(
       to right,

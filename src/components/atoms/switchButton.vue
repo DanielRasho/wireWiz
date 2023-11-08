@@ -139,7 +139,9 @@ watch(
   width: 2.25em;
   height: 2.25em;
   position: absolute;
-  top: 0.438em;
+  /* Center align vertically */
+  top: 50%;
+  transform: translateY(-50%);
   left: 0.438em;
   background: -webkit-gradient(
       linear,

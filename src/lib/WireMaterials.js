@@ -17,7 +17,7 @@ export class WireMaterial {
 }
 
 export const diameterUnits = Object.freeze({
-  METERS: 'm',
+  MILIMETERS: 'mm',
   AWG: 'AWG'
 })
 
@@ -43,7 +43,7 @@ export const WIRE_MATERIALS = Object.freeze({
   GOLD: new WireMaterial(
     'Gold',
     new SimulationMagnitude(
-      computeChargeDensity(79, 196.96657, 19.3),
+      computeChargeDensity(1, 196.96657, 19.3),
       'Charge Density',
       '1/m³'
     ),
@@ -52,7 +52,7 @@ export const WIRE_MATERIALS = Object.freeze({
   SILVER: new WireMaterial(
     'Silver',
     new SimulationMagnitude(
-      computeChargeDensity(47, 107.8682, 10.49),
+      computeChargeDensity(1, 107.8682, 10.49),
       'Charge Density',
       '1/m³'
     ),
@@ -61,7 +61,7 @@ export const WIRE_MATERIALS = Object.freeze({
   COPPER: new WireMaterial(
     'Copper',
     new SimulationMagnitude(
-      computeChargeDensity(29, 63.546, 8.96),
+      computeChargeDensity(1, 63.546, 8.96),
       'Charge Density',
       '1/m³'
     ),
@@ -70,7 +70,7 @@ export const WIRE_MATERIALS = Object.freeze({
   ALUMINUM: new WireMaterial(
     'Aluminum',
     new SimulationMagnitude(
-      computeChargeDensity(13, 26.982, 2.7),
+      computeChargeDensity(3, 26.982, 2.7),
       'Charge Density',
       '1/m³'
     ),

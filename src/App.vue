@@ -178,8 +178,16 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
-      <number-display :class="'left'" :value="-context.voltage.value" postfix="V" />
-      <number-display :class="'right'" :value="context.voltage.value" postfix="V" />
+      <number-display
+        :class="'left'"
+        :value="-context.voltage.value"
+        postfix="V"
+      />
+      <number-display
+        :class="'right'"
+        :value="context.voltage.value"
+        postfix="V"
+      />
       <p class="info font-subtitle">
         Length: {{ context.length.value.toExponential(3)
         }}{{ context.length.unit }}, Diameter:

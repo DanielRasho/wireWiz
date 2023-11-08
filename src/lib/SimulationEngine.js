@@ -1,5 +1,5 @@
 import { SimulationContext } from './SimulationContext'
-import { diameterUnits } from './WireMaterials'
+import { WIRE_MATERIALS, diameterUnits } from './WireMaterials'
 import { AWG_TO_METERS, ELECTRON_CHARGE } from '../lib/Utils'
 
 /**
@@ -38,6 +38,7 @@ export class SimulationEngine {
 
   calculateResistence(context) {
     let wireTransversalArea = this.calculateTransversalArea(context)
+    console.log(wireTransversalArea )
     return (
       (context.material.resistivity.value * context.length.value) /
       wireTransversalArea
@@ -72,11 +73,20 @@ export class SimulationEngine {
   }
 
   calculateTransversalArea(context) {
-    let wireDimensions = context.diameter.unit
-    let wireDiameter =
-      wireDimensions == diameterUnits.AWG
-        ? AWG_TO_METERS * context.diameter.value
-        : context.diameter.value
-    return (Math.PI * Math.pow(wireDiameter, 2)) / 4
+    const MILI_TO_METERS = 1 / 1000
+    let wireUnit = context.diameter.unit
+    let wireValue = context.diameter.value
+    console.log("Wire diameter" + wireValue);
+    switch (wireUnit) {
+      case diameterUnits.MILIMETERS:
+        let diameter = wireValue * MILI_TO_METERS
+        return (Math.PI * Math.pow(diameter, 2)) / 4
+      case diameterUnits.AWG:
+        return (
+          0.012668 *
+          Math.pow(92, (36 - wireValue) / 19.5) *
+          Math(MILI_TO_METERS, 2)
+        )
+    }
   }
 }

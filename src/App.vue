@@ -110,6 +110,8 @@ function getMaterialFromName(event) {
     case 'Graphite':
       materialImage.value = GraphiteLogo
       break
+    case '' :
+      materialImage.value = GraphiteLogo
     default:
       materialImage.value = NoneLogo
       break
@@ -173,13 +175,13 @@ function getMaterialFromName(event) {
       </button-push>
     </side-bar>
     <main>
-      <p class="plus font-title">+ {{ context.voltage.value }} V</p>
-      <p class="minus font-title">- {{ context.voltage.value }} V</p>
+      <p class="plus font-title">{{ -1 * context.voltage.value }} V</p>
+      <p class="minus font-title">{{ context.voltage.value }} V</p>
       <p class="info font-subtitle">
         Length: {{ context.length.value.toExponential(3)
         }}{{ context.length.unit }}, Diameter:
         {{
-          (context.diameter.unit === 'AWG'
+          (context.diameter.unit === diameterUnits.AWG
             ? context.diameter.value * AWG_TO_METERS
             : context.diameter.value
           ).toExponential(3)
@@ -261,12 +263,12 @@ main {
 
 .plus {
   grid-area: positive;
-  color: red;
+  color: var(--primary);
 }
 
 .minus {
   grid-area: negative;
-  color: blue;
+  color: var(--on-info);
 }
 
 .display {

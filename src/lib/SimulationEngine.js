@@ -56,19 +56,17 @@ export class SimulationEngine {
     return (
       (context.material.resistivity.value * context.length.value) /
       wireTransversalArea
-    ).toExponential(4)
+    ).toFixed(3)
   }
 
   calculateCurrent(context) {
-    return (
-      context.voltage.value / this.calculateResistence(context)
-    ).toExponential(4)
+    return (context.voltage.value / this.calculateResistence(context)).toFixed(
+      3
+    )
   }
 
   calculatePower(context) {
-    return (
-      context.voltage.value * this.calculateCurrent(context)
-    ).toExponential(4)
+    return (context.voltage.value * this.calculateCurrent(context)).toFixed(3)
   }
 
   calculateDragVelocity(context) {
@@ -82,8 +80,9 @@ export class SimulationEngine {
 
   calculateElectronTravelTime(context) {
     return (
-      context.length.value / this.calculateDragVelocity(context)
-    ).toExponential(4)
+      context.length.value /
+      (this.calculateDragVelocity(context) * 60)
+    ).toFixed(3)
   }
 
   calculateTransversalArea(context) {

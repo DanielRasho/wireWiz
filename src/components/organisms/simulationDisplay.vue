@@ -23,8 +23,8 @@ import { WIRE_MATERIALS } from '../../lib/WireMaterials'
 
 const ELEMENT_ID = 'simulationContainer'
 const ELECTRON_RADIUS = 5
-const VELOCITY_FACTOR = 1e10
-const ELECTRON_COUNT_FACTOR = 1e-21
+const VELOCITY_FACTOR = 1e3
+const ELECTRON_COUNT_FACTOR = 1e-22
 
 const props = defineProps({
   simInfo: {

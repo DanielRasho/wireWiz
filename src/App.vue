@@ -84,6 +84,21 @@ const showOutputBar = computed(() => {
   return isSimulationOn.value
 })
 
+const displayLength = computed(() => {
+  if (context.value.length.value != '')
+    return context.value.length.value.toExponential(2) + 'm'
+  return '--'
+})
+
+const displayDiameter = computed(() => {
+  if (context.value.diameter.value != '')
+    return (
+      context.value.diameter.value.toExponential(2) +
+      context.value.diameter.unit
+    )
+  return '--'
+})
+
 /**
  * Recives a selected value from select-field tag, and search
  * the Wire material that matches the given value.
@@ -198,14 +213,8 @@ const flickWalkingSimulation = (value) => {
         postfix="V"
       />
       <p class="info font-subtitle">
-        Length: {{ context.length.value.toExponential(3)
-        }}{{ context.length.unit }}, Diameter:
-        {{
-          (context.diameter.unit === diameterUnits.AWG
-            ? AWGToMeters(context.diameter.value)
-            : context.diameter.value
-          ).toExponential(3)
-        }}mm²
+        Length: {{ displayLength }}, Diameter:
+        {{ displayDiameter }}
       </p>
       <simulation-display
         :sim-info="engine"

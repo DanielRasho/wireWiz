@@ -28,7 +28,8 @@ export const randomIntBetween = (min, max) =>
  * @param {[Object]} list A list of elements
  * @returns {Object} The selected object
  */
-export const getRandomElement = (list) => list[randomIntBetween(0, list.length)]
+export const getRandomElement = (list) =>
+  list[randomIntBetween(0, list.length - 1)]
 
 /**
  * Checks if the given number `n` is in between min and max.

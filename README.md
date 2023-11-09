@@ -10,7 +10,7 @@ Made with [VueJS](https://vuejs.org/)
 
 🔴 **Live Demo:** [***Here***](https://danielrasho.github.io/wireWiz/)
 
-🔴 **Video Demostration:** [***Here***](https://youtu.be/SAvX03AomgI)
+🔴 **Video Demostration:** [***Here***](https://youtu.be/BcQmV6vq0VI)
 
 Made with 💚 by
 

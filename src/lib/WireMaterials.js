@@ -47,7 +47,7 @@ export const WIRE_MATERIALS = Object.freeze({
       'Charge Density',
       '1/m³'
     ),
-    new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    new SimulationMagnitude(2.44e-8, 'Resistivity', 'ohm·m')
   ),
   SILVER: new WireMaterial(
     'Silver',
@@ -56,7 +56,7 @@ export const WIRE_MATERIALS = Object.freeze({
       'Charge Density',
       '1/m³'
     ),
-    new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    new SimulationMagnitude(1.47e-8, 'Resistivity', 'ohm·m')
   ),
   COPPER: new WireMaterial(
     'Copper',
@@ -65,7 +65,7 @@ export const WIRE_MATERIALS = Object.freeze({
       'Charge Density',
       '1/m³'
     ),
-    new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    new SimulationMagnitude(1.72e-8, 'Resistivity', 'ohm·m')
   ),
   ALUMINUM: new WireMaterial(
     'Aluminum',
@@ -74,7 +74,7 @@ export const WIRE_MATERIALS = Object.freeze({
       'Charge Density',
       '1/m³'
     ),
-    new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    new SimulationMagnitude(2.75e-8, 'Resistivity', 'ohm·m')
   ),
   GRAPHITE: new WireMaterial(
     'Graphite',
@@ -83,6 +83,6 @@ export const WIRE_MATERIALS = Object.freeze({
       'Charge Density',
       '1/m³'
     ),
-    new SimulationMagnitude(2, 'Resistivity', 'ohm·m')
+    new SimulationMagnitude(3.5e-5, 'Resistivity', 'ohm·m')
   )
 })

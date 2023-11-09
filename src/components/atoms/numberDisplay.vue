@@ -26,12 +26,12 @@ const props = defineProps({
   positiveColor: {
     required: false,
     type: String,
-    default: '#ff4b4b'
+    default: 'var(--primary)'
   },
   negativeColor: {
     required: false,
     type: String,
-    default: '#4cb9fb'
+    default: 'var(--on-info)'
   }
 })
 

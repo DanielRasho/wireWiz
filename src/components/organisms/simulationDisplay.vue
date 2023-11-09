@@ -171,7 +171,10 @@ const setupOneElectronSimulation = () => {
 
       const atom = Bodies.circle(x, y, atomRadius, {
         frictionAir: 0,
-        isStatic: true
+        isStatic: true,
+        render: {
+          fillStyle: '#7c3d13'
+        }
       })
       atoms.push(atom)
     }
@@ -186,10 +189,13 @@ const setupOneElectronSimulation = () => {
   const electron = Bodies.circle(
     electronPosition.x,
     electronPosition.y,
-    atomRadius / 3,
+    atomRadius / 2,
     {
       render: {
-        fillStyle: '#f0ee6c'
+        fillStyle: '#f0ee6c',
+        lineWidth: 0,
+        opacity: 1,
+        visible: true
       }
     }
   )
@@ -265,6 +271,7 @@ const setupInitialConditions = () => {
     options: {
       background: 'transparent',
       wireframeBackground: 'transparent',
+      wireframes: false,
       width: CANVAS_WIDTH,
       height: CANVAS_HEIGHT
     }

@@ -67,7 +67,6 @@ watch(
   (newClearSignal, oldClearSignal) => {
     if (newClearSignal == true) {
       console.log('RESET SIGNAL!')
-      displayValue.value = false
       currentValue.value = false
       emit('clearSuccesful')
     }

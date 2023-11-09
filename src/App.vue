@@ -16,7 +16,7 @@ import {
   diameterUnits
 } from './lib/WireMaterials'
 import { SimulationEngine } from './lib/SimulationEngine'
-import { AWG_TO_METERS } from './lib/Utils'
+import { AWGToMeters } from './lib/Utils'
 import NoneLogo from './assets/none.jpg'
 import AluminumLogo from './assets/aluminumLogo.png'
 import CopperLogo from './assets/copperLogo.png'
@@ -202,10 +202,10 @@ const flickWalkingSimulation = (value) => {
         }}{{ context.length.unit }}, Diameter:
         {{
           (context.diameter.unit === diameterUnits.AWG
-            ? context.diameter.value * AWG_TO_METERS
+            ? AWGToMeters(context.diameter.value)
             : context.diameter.value
           ).toExponential(3)
-        }}m
+        }}mm²
       </p>
       <simulation-display
         :sim-info="engine"

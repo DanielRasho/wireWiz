@@ -1,12 +1,12 @@
 <template>
   <div>
     <svg class="oval" viewBox="0 0 30 90" width="8%" height="100%">
-  <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1"/>
-  </svg>
+      <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1" />
+    </svg>
     <canvas v-bind:id="ELEMENT_ID"></canvas>
     <svg class="oval" viewBox="0 0 30 90" width="8%" height="100%">
-  <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1"/>
-  </svg>
+      <ellipse cx="15" cy="45" rx="14" ry="63" stroke-width="1" />
+    </svg>
   </div>
 </template>
 
@@ -23,7 +23,8 @@ import { WIRE_MATERIALS } from '../../lib/WireMaterials'
 
 const ELEMENT_ID = 'simulationContainer'
 const ELECTRON_RADIUS = 5
-const VELOCITY_FACTOR = 1e12
+const VELOCITY_FACTOR = 1e10
+const ELECTRON_COUNT_FACTOR = 1e-21
 
 const props = defineProps({
   simInfo: {
@@ -94,7 +95,7 @@ const setupMultipleElectronsSimulation = () => {
   const CANVAS_WIDTH = elem.clientWidth
   const CANVAS_HEIGHT = elem.clientHeight
 
-  const ELECTRONS_COUNT = props.simInfo.totalElectrons * 1e-28
+  const ELECTRONS_COUNT = props.simInfo.totalElectrons * ELECTRON_COUNT_FACTOR
   console.log('Electrons count', ELECTRONS_COUNT, props.simInfo.totalElectrons)
 
   let electrons = []
@@ -280,7 +281,6 @@ const setupInitialConditions = () => {
 </script>
 
 <style scoped>
-
 .oval {
   position: absolute;
   transform: translateX(-50%);
@@ -291,7 +291,7 @@ ellipse {
   stroke: white;
 }
 
-div{
+div {
   width: 100%;
   position: relative;
 }

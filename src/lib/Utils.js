@@ -42,3 +42,18 @@ export const getRandomElement = (list) =>
  */
 export const isInBetween = (n, min, max, exclusive = false) =>
   exclusive ? n > min && n < max : n >= min && n <= max
+
+/**
+ * Calculates the area that the given AWG measurement represents.
+ * @param {Number} awg The diameter of the cable in AWG
+ * @returns {Number} The AWG measurement in meters^2.
+ */
+export const AWGToArea = (awg) =>
+  0.012668 * Math.pow(92, (36 - awg) / 19.5) * Math.pow(1e-3, 2)
+
+/**
+ * Calculates the meters that the given AWG measurement represents.
+ * @param {Number} awg The diameter of the cable in AWG
+ * @returns {Number} The AWG measurement in meters.
+ */
+export const AWGToMeters = (awg) => 0.127 * Math.pow(92, (36 - awg) / 39) * 1e-3

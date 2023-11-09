@@ -77,11 +77,11 @@ function clearSignalOff() {
 }
 
 const showInputBar = computed(() => {
-  return isSimulationOn.value == true ? false : true
+  return !isSimulationOn.value
 })
 
 const showOutputBar = computed(() => {
-  return isSimulationOn.value == true ? true : false
+  return isSimulationOn.value
 })
 
 /**
@@ -118,6 +118,10 @@ function getMaterialFromName(event) {
       materialImage.value = NoneLogo
       break
   }
+}
+
+const flickWalkingSimulation = (value) => {
+  engine.value.setSimulationType(value)
 }
 </script>
 
@@ -169,7 +173,12 @@ function getMaterialFromName(event) {
         @field-updated="getMaterialFromName"
         @clear-succesful="clearSignalOff"
       />
-      <switch-button class="input"></switch-button>
+      <switch-button
+        class="input"
+        @switch-updated="flickWalkingSimulation"
+        :clear="clearSignal"
+        @clear-succesful="clearSignalOff"
+      />
       <button-push class="submit-btn" width="25ch" @click="startSimulation">
         Simulate <i class="fa-solid fa-play"></i>
       </button-push>

@@ -19,4 +19,25 @@ export const floatEquals = (n1, n2, delta) => Math.abs(n1 - n2) < delta
  * @param {Number} max
  * @returns {Number}
  */
-export const randomIntBetween = (min, max) => Math.random() * (max - min) + min
+export const randomIntBetween = (min, max) =>
+  Math.round(Math.random() * (max - min) + min)
+
+/**
+ * Get's a random element from a list.
+ *
+ * @param {[Object]} list A list of elements
+ * @returns {Object} The selected object
+ */
+export const getRandomElement = (list) => list[randomIntBetween(0, list.length)]
+
+/**
+ * Checks if the given number `n` is in between min and max.
+ *
+ * @param {Number} n
+ * @param {Number} min
+ * @param {Number} max
+ * @param {Boolean} exclusive Makes both min and max exclusive
+ * @returns {Boolean}
+ */
+export const isInBetween = (n, min, max, exclusive = false) =>
+  exclusive ? n > min && n < max : n >= min && n <= max

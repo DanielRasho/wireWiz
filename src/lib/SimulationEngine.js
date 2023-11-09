@@ -2,6 +2,11 @@ import { SimulationContext } from './SimulationContext'
 import { WIRE_MATERIALS, diameterUnits } from './WireMaterials'
 import { AWG_TO_METERS, ELECTRON_CHARGE } from '../lib/Utils'
 
+export const SIMULATION_TYPES = {
+  MULTIPLE_ELECTRONS: false,
+  ONE_ELECTRON: true
+}
+
 /**
  * Class responsable for calculating parameters for the given
  * wire context.
@@ -13,6 +18,7 @@ export class SimulationEngine {
   dragVelocity = 0
   electronTravelTime = 0
   totalElectrons = 1
+  simulationType = SIMULATION_TYPES.MULTIPLE_ELECTRONS
 
   /**
    *
@@ -28,6 +34,14 @@ export class SimulationEngine {
     this.dragVelocity = this.calculateDragVelocity(context)
     this.electronTravelTime = this.calculateElectronTravelTime(context)
     this.totalElectrons = this.calculateTotalElectrons(context)
+  }
+
+  /**
+   *
+   * @param {Boolean} type Simulation type obtained from constant `SIMULATION_TYPES`
+   */
+  setSimulationType(type) {
+    this.simulationType = type
   }
 
   calculateTotalElectrons(context) {

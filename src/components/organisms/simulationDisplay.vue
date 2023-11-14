@@ -95,7 +95,7 @@ const setupMultipleElectronsSimulation = () => {
   const CANVAS_WIDTH = elem.clientWidth
   const CANVAS_HEIGHT = elem.clientHeight
 
-  const ELECTRONS_COUNT = props.simInfo.totalElectrons * ELECTRON_COUNT_FACTOR
+  const ELECTRONS_COUNT = Math.min(props.simInfo.totalElectrons * ELECTRON_COUNT_FACTOR, 1000)
   console.log('Electrons count', ELECTRONS_COUNT, props.simInfo.totalElectrons)
 
   let electrons = []
